@@ -33,7 +33,7 @@ const ReadingsChart = ({ locationId }: ReadingsChartProps) => {
   const [data, setData] = useState(generateMockData(24));
 
   return (
-    <div className="w-[640px] flex-none bg-card border-l border-border overflow-y-auto shadow-lg z-20 relative">
+    <div className="w-[640px] flex-none bg-card border-l border-border shadow-lg z-20 relative">
       <Card className="m-6 border-border shadow-sm">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-secondary mb-6">Latest Readings</h2>
