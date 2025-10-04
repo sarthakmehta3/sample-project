@@ -17,7 +17,7 @@ const Header = () => {
       
       <nav className="hidden md:flex items-center gap-6">
         <Button variant="ghost" size="sm" asChild>
-          <Link to="/#data">Explore the data</Link>
+          <Link to="/explore">Explore the data</Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link to="/why-air-quality">Why air quality?</Link>
