@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 interface LocationPanelProps {
   locationId: string;
   onMoreDetails?: () => void;
+  onClose?: () => void;
 }
 
 const locationData: Record<string, any> = {
@@ -28,13 +29,29 @@ const LocationPanel = ({ locationId, onMoreDetails }: LocationPanelProps) => {
 
   if (!location) return null;
 
+  const handleDownload = () => {
+    const now = new Date();
+    const rows = ["timestamp,pollutant,value"]; // simple CSV of last 24 readings
+    for (let i = 0; i < 24; i++) {
+      const ts = new Date(now.getTime() - i * 60 * 60 * 1000).toISOString();
+      rows.push(`${ts},CO ppm,${(Math.random() * 0.4 + 0.1).toFixed(3)}`);
+    }
+    const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${locationId}-readings.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="w-96 bg-card border-l border-border overflow-y-auto shadow-lg">
       {/* Header */}
       <div className="sticky top-0 bg-secondary/10 backdrop-blur-sm p-6 border-b border-border">
         <div className="flex items-start justify-between mb-2">
           <h2 className="text-3xl font-bold text-secondary">{location.name}</h2>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose} aria-label="Close panel">
             <X className="h-5 w-5" />
           </Button>
         </div>
@@ -45,7 +62,7 @@ const LocationPanel = ({ locationId, onMoreDetails }: LocationPanelProps) => {
               <TrendingUp className="h-3 w-3" />
               More details
             </Button>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="gap-2" onClick={handleDownload}>
               <Download className="h-3 w-3" />
               Download data
             </Button>

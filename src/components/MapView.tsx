@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,11 @@ const locations = [
 ];
 
 const MapView = ({ onLocationSelect, selectedLocation }: MapViewProps) => {
+  const [query, setQuery] = useState("");
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return q ? locations.filter((l) => l.name.toLowerCase().includes(q)) : locations;
+  }, [query]);
   return (
     <div className="flex-1 relative bg-[#c3e8e5]">
       {/* Map placeholder with teal water color */}
@@ -32,7 +38,7 @@ const MapView = ({ onLocationSelect, selectedLocation }: MapViewProps) => {
           </div>
 
           {/* Location markers */}
-          {locations.map((location) => (
+          {filtered.map((location) => (
             <button
               key={location.id}
               onClick={() => onLocationSelect(location.id)}
@@ -54,12 +60,14 @@ const MapView = ({ onLocationSelect, selectedLocation }: MapViewProps) => {
       </div>
 
       {/* Search overlay */}
-      <div className="absolute top-4 left-4 z-20">
+      <div className="absolute top-4 left-4 z-30">
         <div className="bg-card rounded-lg shadow-lg p-2 w-64">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search"
+              placeholder="Search locations"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               className="pl-10 bg-background border-border"
             />
           </div>

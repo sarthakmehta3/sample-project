@@ -16,10 +16,18 @@ const Header = () => {
       </div>
       
       <nav className="hidden md:flex items-center gap-6">
-        <Button variant="ghost" size="sm">Explore the data</Button>
-        <Button variant="ghost" size="sm">Why air quality?</Button>
-        <Button variant="ghost" size="sm">Partners</Button>
-        <Button variant="ghost" size="sm">About</Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/#data">Explore the data</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/why-air-quality">Why air quality?</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/partners">Partners</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/about">About</Link>
+        </Button>
       </nav>
 
       <div className="flex items-center gap-2">
@@ -29,7 +37,9 @@ const Header = () => {
         <Button variant="ghost" size="sm" asChild>
           <Link to="/login">Login</Link>
         </Button>
-        <Button variant="default" size="sm">Donate</Button>
+        <Button variant="default" size="sm" asChild>
+          <Link to="/donate">Donate</Link>
+        </Button>
       </div>
     </header>
   );
