@@ -24,7 +24,7 @@ const locationData: Record<string, any> = {
   },
 };
 
-const LocationPanel = ({ locationId, onMoreDetails }: LocationPanelProps) => {
+const LocationPanel = ({ locationId, onMoreDetails, onClose }: LocationPanelProps) => {
   const location = locationData[locationId];
 
   if (!location) return null;
