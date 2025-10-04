@@ -22,7 +22,7 @@ const MapView = ({ onLocationSelect, selectedLocation }: MapViewProps) => {
     return q ? locations.filter((l) => l.name.toLowerCase().includes(q)) : locations;
   }, [query]);
   return (
-    <div className="flex-1 min-w-0 relative bg-[#c3e8e5]">
+    <div className="flex-1 min-w-0 h-full overflow-hidden relative bg-[#c3e8e5]">
       {/* Map placeholder with teal water color */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Simulated map background */}
