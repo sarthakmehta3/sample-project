@@ -46,7 +46,7 @@ const LocationPanel = ({ locationId, onMoreDetails, onClose }: LocationPanelProp
   };
 
   return (
-    <div className="w-96 bg-card border-l border-border overflow-y-auto shadow-lg">
+    <div className="w-96 flex-none bg-card border-l border-border overflow-y-auto shadow-lg">
       {/* Header */}
       <div className="sticky top-0 bg-secondary/10 backdrop-blur-sm p-6 border-b border-border">
         <div className="flex items-start justify-between mb-2">
@@ -55,9 +55,9 @@ const LocationPanel = ({ locationId, onMoreDetails, onClose }: LocationPanelProp
             <X className="h-5 w-5" />
           </Button>
         </div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">{location.country}</p>
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm text-muted-foreground min-w-0 truncate">{location.country}</p>
+          <div className="flex items-center gap-2 flex-shrink-0">
             <Button variant="secondary" size="sm" className="gap-2" onClick={() => onMoreDetails?.()}>
               <TrendingUp className="h-3 w-3" />
               More details
