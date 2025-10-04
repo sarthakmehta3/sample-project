@@ -30,7 +30,7 @@ const Index = () => {
               onClose={() => setSelectedLocation(null)}
             />
             {showDetails && (
-              <div className="w-full max-w-[640px]">
+              <div className="w-[640px] flex-none">
                 <ReadingsChart locationId={selectedLocation} />
               </div>
             )}
