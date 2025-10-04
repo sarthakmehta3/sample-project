@@ -46,9 +46,9 @@ const LocationPanel = ({ locationId, onMoreDetails, onClose }: LocationPanelProp
   };
 
   return (
-    <div className="w-96 flex-none bg-card border-l border-border overflow-y-auto shadow-lg z-20 relative">
+    <div className="w-96 flex-none bg-card border-l border-border shadow-lg z-20 relative">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-secondary/10 backdrop-blur-sm p-6 border-b border-border">
+      <div className="bg-secondary/10 backdrop-blur-sm p-6 border-b border-border">
         <div className="flex items-start justify-between mb-2">
           <h2 className="text-3xl font-bold text-secondary">{location.name}</h2>
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose} aria-label="Close panel">
