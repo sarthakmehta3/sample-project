@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface LocationPanelProps {
   locationId: string;
+  onMoreDetails?: () => void;
 }
 
 const locationData: Record<string, any> = {
@@ -22,7 +23,7 @@ const locationData: Record<string, any> = {
   },
 };
 
-const LocationPanel = ({ locationId }: LocationPanelProps) => {
+const LocationPanel = ({ locationId, onMoreDetails }: LocationPanelProps) => {
   const location = locationData[locationId];
 
   if (!location) return null;
@@ -39,10 +40,16 @@ const LocationPanel = ({ locationId }: LocationPanelProps) => {
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">{location.country}</p>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Download className="h-3 w-3" />
-            Download data
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" size="sm" className="gap-2" onClick={() => onMoreDetails?.()}>
+              <TrendingUp className="h-3 w-3" />
+              More details
+            </Button>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Download className="h-3 w-3" />
+              Download data
+            </Button>
+          </div>
         </div>
       </div>
 
