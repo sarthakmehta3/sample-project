@@ -18,7 +18,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen overflow-hidden bg-background">
       <Header />
       <div className="flex-1 flex overflow-auto">
         <MapView onLocationSelect={(id) => { setSelectedLocation(id); setShowDetails(false); }} selectedLocation={selectedLocation} />
