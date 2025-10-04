@@ -60,7 +60,7 @@ const MapView = ({ onLocationSelect, selectedLocation }: MapViewProps) => {
       </div>
 
       {/* Search overlay */}
-      <div className="absolute top-4 left-4 z-30">
+      <div className="absolute top-4 left-4 z-10">
         <div className="bg-card rounded-lg shadow-lg p-2 w-64">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
