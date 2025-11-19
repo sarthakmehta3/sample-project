@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import MapView from "@/components/MapView";
 import LocationPanel from "@/components/LocationPanel";
@@ -6,16 +6,34 @@ import ReadingsChart from "@/components/ReadingsChart";
 
 const Index = () => {
   const [selectedLocation, setSelectedLocation] = useState<string | null>("jersey-city");
+  const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => {
+    const applyHash = () => {
+      if (window.location.hash === "#data") setShowDetails(true);
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen overflow-hidden bg-background">
       <Header />
-      <div className="flex-1 flex overflow-hidden">
-        <MapView onLocationSelect={setSelectedLocation} selectedLocation={selectedLocation} />
+      <div className="flex-1 min-h-0 flex overflow-hidden">
+        <MapView onLocationSelect={(id) => { setSelectedLocation(id); setShowDetails(false); }} selectedLocation={selectedLocation} />
         {selectedLocation && (
           <>
-            <LocationPanel locationId={selectedLocation} />
-            <ReadingsChart locationId={selectedLocation} />
+            <LocationPanel
+              locationId={selectedLocation}
+              onMoreDetails={() => setShowDetails(true)}
+              onClose={() => setSelectedLocation(null)}
+            />
+            {showDetails && (
+              <div className="w-[640px] flex-none">
+                <ReadingsChart locationId={selectedLocation} />
+              </div>
+            )}
           </>
         )}
       </div>

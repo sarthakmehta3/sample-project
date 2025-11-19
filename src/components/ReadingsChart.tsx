@@ -15,17 +15,14 @@ interface ReadingsChartProps {
   locationId: string;
 }
 
-const generateMockData = () => {
-  const data = [];
-  const times = ["02:30", "03:30", "04:30", "05:30", "06:30", "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "Oct 03", "15:30", "16:30", "17:30", "18:30", "19:30", "20:30", "21:30", "22:30", "23:30", "00:30", "01:30"];
-  
-  for (let i = 0; i < times.length; i++) {
-    data.push({
-      time: times[i],
-      value: Math.random() * 0.4 + 0.1,
-    });
+const generateMockData = (points: number) => {
+  const data: { time: string; value: number }[] = [];
+  const now = new Date();
+  for (let i = points - 1; i >= 0; i--) {
+    const t = new Date(now.getTime() - i * 60 * 60 * 1000);
+    const label = `${t.getHours().toString().padStart(2, "0")}:00`;
+    data.push({ time: label, value: Math.random() * 0.4 + 0.1 });
   }
-  
   return data;
 };
 
@@ -33,10 +30,10 @@ const ReadingsChart = ({ locationId }: ReadingsChartProps) => {
   const [pollutant, setPollutant] = useState("CO ppm");
   const [timeRange, setTimeRange] = useState("Last 24 hours");
   const [chartType, setChartType] = useState("Linear");
-  const [data] = useState(generateMockData());
+  const [data, setData] = useState(generateMockData(24));
 
   return (
-    <div className="w-[600px] bg-card border-l border-border overflow-y-auto shadow-lg">
+    <div className="w-[640px] h-full overflow-y-auto flex-none bg-card border-l border-border shadow-lg z-20 relative">
       <Card className="m-6 border-border shadow-sm">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-secondary mb-6">Latest Readings</h2>
@@ -77,7 +74,14 @@ const ReadingsChart = ({ locationId }: ReadingsChartProps) => {
               </SelectContent>
             </Select>
 
-            <Button variant="default" size="sm">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => {
+                const pts = timeRange === "Last 48 hours" ? 48 : timeRange === "Last week" ? 168 : 24;
+                setData(generateMockData(pts));
+              }}
+            >
               Update
             </Button>
           </div>
@@ -100,13 +104,15 @@ const ReadingsChart = ({ locationId }: ReadingsChartProps) => {
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  domain={[0, 0.6]}
-                  ticks={[0, 0.2, 0.4, 0.6]}
+                  domain={[chartType === "Logarithmic" ? 0.01 : 0, 0.6]}
+                  ticks={chartType === "Logarithmic" ? [0.01, 0.02, 0.05, 0.1, 0.2, 0.4] : [0, 0.2, 0.4, 0.6]}
+                  scale={chartType === "Logarithmic" ? "log" : "auto"}
+                  allowDataOverflow
                 />
                 <Tooltip
                   contentStyle={{
